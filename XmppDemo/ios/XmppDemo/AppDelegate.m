@@ -19,6 +19,9 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+//  NSString *stringURL = @"http://192.168.23.129:8081/index.ios.bundle";
+ // NSURL *jsCodeLocation = [NSURL URLWithString:stringURL];
+
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"XmppDemo"

@@ -1,5 +1,5 @@
 import XMPP from 'react-native-xmpp';
-const DOMAIN = "jabber.hot-chilli.net";
+const DOMAIN = "192.168.23.116";
 const SCHEMA = "ios";
 import {observable} from 'mobx';
 import autobind from 'autobind'
@@ -10,7 +10,7 @@ class XmppStore {
     @observable loginError = null;
     @observable error = null;
     @observable conversation = [];
-    
+
     constructor() {
         XMPP.on('loginError', this.onLoginError);
         XMPP.on('error', this.onError);
@@ -21,7 +21,7 @@ class XmppStore {
         this.local = 'rntestuser1';
         this.remote = 'rntestuser2';
     }
-    
+
     _userForName(name){
         return name + '@' + DOMAIN + "/" + SCHEMA;
     }
@@ -74,23 +74,15 @@ class XmppStore {
         this.logged = true;
     }
 
-    login({local, remote}){
-        this.local = local;
-        this.remote = remote;
-        if (!local || !local.trim()){
-            this.loginError = "Local username should not be empty";
-        } else if (!remote || !remote.trim()){
-            this.loginError = "Remote username should not be empty";
-        } else if (local==remote){
-            this.loginError = "Local username should not be the same as remote username";
-        } else {
-            this.loginError = null;
+    login(username, password, ip){
+        this.username = username;
+        this.password = password;
 
-            // try to login to test domain with the same password as username
-            XMPP.connect(this._userForName(this.local),this.local);
-            this.loading = true;
-        }
-
+        let remoteName = username + '@' + (ip?ip:DOMAIN) + "/" + SCHEMA;
+        // try to login to test domain with the same password as username
+        console.log('remoteName: ' + remoteName);
+        XMPP.connect(remoteName, password);
+        this.loading = true;
     }
 
     disconnect() {
